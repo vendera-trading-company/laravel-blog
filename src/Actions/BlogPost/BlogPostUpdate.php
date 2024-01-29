@@ -6,7 +6,8 @@ use VenderaTradingCompany\LaravelBlog\Models\BlogPost;
 use VenderaTradingCompany\PHPActions\Action;
 use Illuminate\Support\Str;
 use VenderaTradingCompany\LaravelAssets\Actions\Image\ImageStore;
-use VenderaTradingCompany\LaravelAssets\Actions\Markdown\MarkdownStore;
+use VenderaTradingCompany\LaravelAssets\Actions\Image\ImageUpdate;
+use VenderaTradingCompany\LaravelAssets\Actions\Markdown\MarkdownUpdate;
 
 class BlogPostUpdate extends Action
 {
@@ -56,7 +57,8 @@ class BlogPostUpdate extends Action
             return;
         }
 
-        $content = Action::run(MarkdownStore::class, [
+        $content = Action::run(MarkdownUpdate::class, [
+            'id' => $blog_post->content_id,
             'raw' => $content_raw,
             'formatted' => $content_formatted,
             'database' => true,
@@ -66,18 +68,33 @@ class BlogPostUpdate extends Action
             return;
         }
 
-        $banner = Action::run(ImageStore::class, [
-            'base64' => true,
-            'file' => $banner
-        ])->getData('image');
-
-        $blog_post->update([
+        $blog_post_data = [
             'content_id' => $content->id,
-            'banner_id' => $banner?->id,
             'description' => $description,
             'title' => $title,
             'slug' => $slug
-        ]);
+        ];
+
+        if (!empty($banner)) {
+            if (! empty($blog_post->banner_id)) {
+                $banner = Action::run(ImageUpdate::class, [
+                    'id' => $blog_post->banner_id,
+                    'base64' => true,
+                    'file' => $banner
+                ])->getData('image');
+    
+                $blog_post_data['banner_id'] = $banner?->id;
+            } else {
+                $banner = Action::run(ImageStore::class, [
+                    'base64' => true,
+                    'file' => $banner
+                ])->getData('image');
+    
+                $blog_post_data['banner_id'] = $banner?->id;
+            }
+        }
+
+        $blog_post->update($blog_post_data);
 
         return [
             'blog_post' => $blog_post
