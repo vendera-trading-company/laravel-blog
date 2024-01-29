@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('banner_id')->nullable();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
