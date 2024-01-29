@@ -9,7 +9,7 @@ use VenderaTradingCompany\PHPActions\Action;
 
 trait BlogPostTestHelperTrait
 {
-    public function blogPostCreate(Blog | string $blog, array $data = []): BlogPost
+    public function blogPostCreate(Blog | string $blog, array $data = []): BlogPost | null
     {
         $blog_id = $blog;
 

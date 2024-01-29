@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
-use VenderaTradingCompany\LaravelBlog\Actions\BlogPost\BlogPostStore;
 use VenderaTradingCompany\LaravelBlog\Actions\BlogPost\BlogPostUpdate;
 use VenderaTradingCompany\PHPActions\Action;
 

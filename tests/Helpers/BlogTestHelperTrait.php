@@ -8,7 +8,7 @@ use VenderaTradingCompany\PHPActions\Action;
 
 trait BlogTestHelperTrait
 {
-    public function blogCreate(): Blog
+    public function blogCreate(): Blog | null
     {
         $blog = Action::run(BlogStore::class)->getData('blog');
 
