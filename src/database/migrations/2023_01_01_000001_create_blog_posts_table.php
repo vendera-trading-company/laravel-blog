@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('blog_id');
             $table->string('content_id');
             $table->string('banner_id')->nullable();
-            $table->text('title');
-            $table->text('slug')->unique();
+            $table->string('title');
+            $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->timestamps();
         });
