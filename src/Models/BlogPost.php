@@ -32,4 +32,35 @@ class BlogPost extends Model
     {
         return $this->belongsTo(Image::class, 'banner_id');
     }
+
+    public function scopeSearch($query, mixed $search, Blog | string $blog = null)
+    {
+        if (empty($search)) {
+            return $query;
+        }
+
+        $blog_id = $blog;
+
+        if ($blog instanceof Blog) {
+            $blog_id = $blog->id;
+        }
+
+        if (!empty($blog_id)) {
+            $query->where('blog_id', $blog_id);
+        }
+
+        $query->where(function ($query) use ($search) {
+            if (is_array($search)) {
+                foreach ($search as $s) {
+                    $query->orWhere('title', 'like', '%' . $s . '%');
+                    $query->orWhere('description', 'like', '%' . $s . '%');
+                }
+            } else {
+                $query->orWhere('title', 'like', '%' . $search . '%');
+                $query->orWhere('description', 'like', '%' . $search . '%');
+            }
+        });
+
+        return $query;
+    }
 }
