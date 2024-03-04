@@ -23,6 +23,7 @@ class BlogPostStore extends Action
         $blog_id = $this->getData('blog_id');
         $description = $this->getData('description');
         $title = $this->getData('title');
+        $meta = $this->getData('meta');
 
         $title = trim($title);
 
@@ -70,7 +71,8 @@ class BlogPostStore extends Action
             'banner_id' => $banner?->id,
             'description' => $description,
             'title' => $title,
-            'slug' => $slug
+            'slug' => $slug,
+            'meta' => $meta,
         ]);
 
         return [

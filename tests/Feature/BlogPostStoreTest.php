@@ -29,6 +29,31 @@ class BlogPostStoreTest extends TestCase
         $this->assertDatabaseCount('blog_posts', 1);
     }
 
+    public function testBlogPostCanBeStoredWithMeta()
+    {
+        Storage::fake('local');
+
+        $this->assertDatabaseCount('blog_posts', 0);
+
+        $blog = $this->blogCreate();
+
+        $blog_post = Action::run(BlogPostStore::class, [
+            'blog_id' => $blog->id,
+            'content_raw' => 'test',
+            'content_formatted' => 'Test',
+            'title' => 'Test',
+            'meta' => [
+                'user_id' => 'test_user'
+            ]
+        ])->getData('blog_post');
+
+        $this->assertNotEmpty($blog_post);
+
+        $this->assertEquals('test_user', $blog_post->meta['user_id']);
+
+        $this->assertDatabaseCount('blog_posts', 1);
+    }
+
     public function testBlogPostCanBeStoredWithBanner()
     {
         Storage::fake('local');

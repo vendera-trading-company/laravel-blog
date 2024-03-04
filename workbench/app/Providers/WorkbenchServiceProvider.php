@@ -19,6 +19,7 @@ class WorkbenchServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->loadMigrationsFrom(__DIR__ . '/../../../vendor/vendera-trading-company/laravel-assets/src/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../../../src/database/migrations');
     }
 }

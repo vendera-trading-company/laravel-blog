@@ -18,6 +18,10 @@ class BlogPost extends Model
 
     protected $table = 'blog_posts';
 
+    protected $casts = [
+        'meta' => 'array'
+    ];
+
     public function blog()
     {
         return $this->belongsTo(Blog::class, 'blog_id');

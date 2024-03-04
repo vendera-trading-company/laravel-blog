@@ -16,6 +16,10 @@ class Blog extends Model
 
     protected $table = 'blogs';
 
+    protected $casts = [
+        'meta' => 'array'
+    ];
+
     public function blogPosts()
     {
         return $this->hasMany(BlogPost::class, 'blog_id');

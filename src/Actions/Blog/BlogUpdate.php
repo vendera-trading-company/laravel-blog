@@ -4,19 +4,26 @@ namespace VenderaTradingCompany\LaravelBlog\Actions\Blog;
 
 use VenderaTradingCompany\LaravelBlog\Models\Blog;
 use VenderaTradingCompany\PHPActions\Action;
-use Illuminate\Support\Str;
 
-class BlogStore extends Action
+class BlogUpdate extends Action
 {
+    protected $validator = [
+        'id' => 'required'
+    ];
+
     public function handle()
     {
+        $id = $this->getData('id');
         $meta = $this->getData('meta');
 
-        $id = now()->timestamp . '_' . strtolower(Str::random(32)) . '_blog';
+        $blog = Blog::where('id', $id)->first();
 
-        $blog = Blog::create([
-            'id' => $id,
-            'meta' => $meta
+        if (empty($blog)) {
+            return;
+        }
+
+        $blog->update([
+            'meta' => $meta,
         ]);
 
         return [

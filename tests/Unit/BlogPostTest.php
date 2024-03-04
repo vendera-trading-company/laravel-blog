@@ -17,7 +17,8 @@ class BlogPostTest extends TestCase
                 'content_id',
                 'description',
                 'title',
-                'slug'
+                'slug',
+                'meta'
             ])
         );
     }

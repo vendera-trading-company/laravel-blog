@@ -24,6 +24,7 @@ class BlogPostUpdate extends Action
         $description = $this->getData('description');
         $title = $this->getData('title');
         $id = $this->getData('id');
+        $meta = $this->getData('meta');
 
         $blog_post = BlogPost::where('id', $id)->first();
 
@@ -72,24 +73,25 @@ class BlogPostUpdate extends Action
             'content_id' => $content->id,
             'description' => $description,
             'title' => $title,
-            'slug' => $slug
+            'slug' => $slug,
+            'meta' => $meta,
         ];
 
         if (!empty($banner)) {
-            if (! empty($blog_post->banner_id)) {
+            if (!empty($blog_post->banner_id)) {
                 $banner = Action::run(ImageUpdate::class, [
                     'id' => $blog_post->banner_id,
                     'base64' => true,
                     'file' => $banner
                 ])->getData('image');
-    
+
                 $blog_post_data['banner_id'] = $banner?->id;
             } else {
                 $banner = Action::run(ImageStore::class, [
                     'base64' => true,
                     'file' => $banner
                 ])->getData('image');
-    
+
                 $blog_post_data['banner_id'] = $banner?->id;
             }
         }

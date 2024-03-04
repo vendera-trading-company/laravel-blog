@@ -12,6 +12,7 @@ class BlogTest extends TestCase
         $this->assertTrue(
             Schema::hasColumns('blogs', [
                 'id',
+                'meta'
             ])
         );
     }
